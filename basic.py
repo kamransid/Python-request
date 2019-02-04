@@ -1,3 +1,4 @@
+import json
 import requests
 r = requests.get('https://api.github.com/events')
 print(r.status_code)
@@ -31,8 +32,8 @@ r = requests.get('https://api.github.com/events')
 print(r.text)
 print(r.encoding)
 print(r.url)
-payload = {'key1':'value1', 'key2':[1,2,3]}
-r = requests.get('https://api.github.com/events', params= payload)
+payload = {'key1': 'value1', 'key2': [1, 2, 3]}
+r = requests.get('https://api.github.com/events', params=payload)
 print(r.url)
 
 #r.encoding = 'ISO-8859-1'
@@ -45,6 +46,38 @@ for line in p:
     if v > 5:
         break
 
+
+print(r.json())
+
+
+print(r.raise_for_status())
+print(r.status_code)
+
+r = requests.get('https://api.github.com/events', stream=True)
+
+print(r.raw.read(5))
+
+url = 'https://api.github.com/some/endpoint'
+payload = {'some': 'data'}
+
+r = requests.post(url, data=json.dumps(payload))
+print(r.status_code)  # 404
+
+url = 'https://httpbin.org/post'
+files = {'file': open('basic.py', 'rb')}
+r = requests.post(url, files=files)
+print(type(r.content))
+print(r.text)
+if r.status_code == requests.codes.ok:
+    print('Hi hello bol k ')
+print(requests.codes.ok)
+print(requests)
+
+url = 'https://httpbin.org/cookies'
+cookies = dict(cookies_are='working')
+r = requests.get(url, cookies=cookies)
+
+print(r.text)
 
 
 
